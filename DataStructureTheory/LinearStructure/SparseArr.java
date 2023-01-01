@@ -23,20 +23,42 @@ public class SparseArr {
                 }
             }
         }
-//Store the non-zero elements found in sparse array into a sparse array
+        System.out.println(sparseNum);
+        //Store the non-zero elements found in sparse array into a sparse array
         int[][] sparseArray = new int[3][sparseNum];
         /**
-         * [0] sparseNum
-         * [1] sparseNum
-         * [2] sparseNum
+         * [0] sparseNum | sparseNum | sparseNum
+         * [1] sparseNum | sparseNum | sparseNum
+         * [2] sparseNum | sparseNum | sparseNum
          */
+        int count = 0;
+        for (int i = 0; i < sparse.length; i++) {
+            for (int j = 0; j < sparse[i].length; j++) {
+                if (sparse[i][j] != 0) {
+                    sparseArray[0][count] = i;
+                    sparseArray[1][count] = j;
+                    sparseArray[2][count] = sparse[i][j];
+                    count++;
+                }
 
 
+            }
 
+        }
+
+        System.out.print("Representation of Sparse array using arrays : ");
+        System.out.println();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < sparseNum; j++)
+                System.out.print(" "
+                        + sparseArray[i][j]);
+            System.out.println();
+        }
 
     }
-
 }
+
+
 
 
 
