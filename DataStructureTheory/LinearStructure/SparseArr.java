@@ -40,12 +40,8 @@ public class SparseArr {
                     sparseArray[2][count] = sparse[i][j];
                     count++;
                 }
-
-
             }
-
         }
-
         System.out.print("Representation of Sparse array using arrays : ");
         System.out.println();
         for (int i = 0; i < 3; i++) {

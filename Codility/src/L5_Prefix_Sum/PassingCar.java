@@ -16,8 +16,8 @@ public class PassingCar {
             } else {
                 Sum += passingCarEast;
             }
-
         }
+
         return Sum > 1000000000 ? -1 : passingCarEast;
     }
 
