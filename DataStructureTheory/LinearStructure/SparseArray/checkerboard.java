@@ -1,4 +1,4 @@
-package LinearStructure;
+package LinearStructure.SparseArray;
 
 /**
  * @program: Data-strutre-and-algorithm

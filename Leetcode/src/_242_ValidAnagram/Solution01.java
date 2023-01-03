@@ -7,14 +7,13 @@ package _242_ValidAnagram;
  * @create: 2023-01-01 19:06
  **/
 /*
-Build your own hash table and iterate through the two strings.
-1. get the position of the character in the array: each loop, take out the ith element in s, subtract its ASCII code from the ASCII code corresponding to the letter a to know the current position of the character in the array.
+建立你自己的哈希表并遍历这两个字符串。
+1.获得字符在数组中的位置：每次循环，取出s中的第i个元素，用字母a对应的ASCII码减去它的ASCII码，以知道该字符在数组中的当前位置。
 
-2. the number of occurrences of the character at that position +1, then take out the ith element in t, subtract its ASCII code from the ASCII code corresponding to letter a, to know the current position of the character in the array, then the number of occurrences of the character at that position -1.
+2. 该位置的字符出现次数+1，然后取出t中的第i个元素，用字母a对应的ASCII码减去其ASCII码，知道该字符在数组中的当前位置，然后该位置的字符出现次数-1。
 
-3. At the end of the loop, the array map is traversed, and if there are characters in the map whose number is not 0, then it is not an alphabetic anagram, otherwise it is an alphabetic anagram.
+3. 循环结束时，遍历数组图，如果数组图中有编号不为0的字符，则不是字母重组，否则就是字母重组。
 
-Translated with www.DeepL.com/Translator (free version)
  */
 public class Solution01 {
     public boolean isAnagram(String s, String t) {
@@ -34,7 +33,7 @@ public class Solution01 {
         return true;
     }
     public static void main(String[] args) {
-        System.out.println(new Solution01().isAnagram("dbc", "dbc"));
+        System.out.println(new Solution01().isAnagram("dac", "dbc"));
 
     }
 }

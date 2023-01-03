@@ -1,4 +1,6 @@
-package LinearStructure;
+package LinearStructure.Queue;
+
+import java.util.Scanner;
 
 /**
  * @program: Data-strutre-and-algorithm
@@ -7,9 +9,26 @@ package LinearStructure;
  * @create: 2023-01-01 09:51
  **/
 public class ArrayQueueDemo {
-    //使用数组模拟队列-编写一个ArrayQueue 的类
+    public static void main(String[] args) {
+        ArrayQueue arrayQueue = new ArrayQueue(3);
+        char key = ' '; //获取用户输入
+        Scanner sc = new Scanner(System.in);
 
-    class ArrayQueue {
+        //输出一个菜单
+        boolean loop = true;
+        while (loop) {
+            System.out.println("s(show): 显示队列");
+
+            System.out.println("e(exit): 退出程序");
+            System.out.println("a(add): 添加数据到队列");
+            System.out.println("g(get): 从队列取出数据");
+            System.out.println("h(head): 查看队列头的数据");
+        }
+    }
+
+
+    //使用数组模拟队列-编写一个ArrayQueue的类
+    static class ArrayQueue {
         private int maxSize; // indicates the maximum capacity of the array
         private int front; //queue front
         private int rear; //queue rear
@@ -63,13 +82,8 @@ public class ArrayQueueDemo {
             front++;
             return arrayQueue[front];
         }
-
-
     }
 
-    public static void main(String[] args) {
-
-    }
 }
 
 

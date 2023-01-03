@@ -27,8 +27,7 @@ public class Solution {
                         .collect(Collectors.joining()))
                 .collect(Collectors.toList());
 
-        // 构造一个映射，其中键是每个排序的单词，
-        // 并且 value 是它所在的索引列表
+
         Map<String, List<Integer>> map = new HashMap<>();
         for (int i = 0; i < list.size(); i++) {
             map.putIfAbsent(list.get(i), new ArrayList<>());
