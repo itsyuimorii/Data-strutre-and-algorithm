@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  * @program: Data-strutre-and-algorithm
- * @description:
+ * @description: 数组模拟queue，但是数组只能使用一次，没有达到重复使用的效果
  * @author: yuimorii
  * @create: 2023-01-01 09:51
  **/
@@ -12,17 +12,49 @@ public class ArrayQueueDemo {
     public static void main(String[] args) {
         ArrayQueue arrayQueue = new ArrayQueue(3);
         char key = ' '; //获取用户输入
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         //输出一个菜单
         boolean loop = true;
         while (loop) {
-            System.out.println("s(show): 显示队列");
+            System.out.println("s(show): Show queue");
+            System.out.println("e(exit): Quit the program");
+            System.out.println("a(add): Add data to the queue");
+            System.out.println("g(get): retrieve data from queue");
+            System.out.println("h(head): View the data at the head of the queue");
+            key = scanner.next().charAt(0);
+            switch (key) {
+                case 's':
+                    arrayQueue.showQueue();
+                    break;
+                case 'a':
+                    System.out.println("Enter a value: ");
+                    int putValue = scanner.nextInt();
+                    arrayQueue.Enqueue(putValue);
+                    break;
+                case 'g':
+                    try {
+                        int getValue = arrayQueue.Dequeue();
 
-            System.out.println("e(exit): 退出程序");
-            System.out.println("a(add): 添加数据到队列");
-            System.out.println("g(get): 从队列取出数据");
-            System.out.println("h(head): 查看队列头的数据");
+                        System.out.println("the getValue is " + getValue);
+                    } catch (Exception e) {
+//                        throw new RuntimeException(e);
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 'h':
+                    try {
+                        int getValueHeader = arrayQueue.headQueue();
+                        System.out.println("the HeaderValue is " + getValueHeader);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+                case 'e':
+                    loop = false;
+                    break;
+            }
+            System.out.println("Program termination");
         }
     }
 
@@ -81,6 +113,26 @@ public class ArrayQueueDemo {
             }
             front++;
             return arrayQueue[front];
+        }
+
+        //show all data from the queue
+        public void showQueue() {
+            //forloop
+            if (isNull()) {
+                System.out.println("Queue is empty, there is no data");
+                return;
+            }
+            for (int i = 0; i < arrayQueue.length; i++) {
+                System.out.printf("arr[%d]=%d\n", i, arrayQueue[i]);
+
+            }
+        }
+
+        public int headQueue() {
+            if (isNull()) {
+                throw new RuntimeException("Queue is Empty");
+            }
+            return arrayQueue[front + 1];
         }
     }
 
