@@ -1,5 +1,6 @@
 package LinearStructure.LinkedList;
-import java.util.Stack;
+
+
 /**
  * @program: Data-strutre-and-algorithm
  * @description:
@@ -7,99 +8,101 @@ import java.util.Stack;
  * @create: 2023-01-03 13:34
  **/
 public class SinglyLinkedListDemo {
+    //进行测试
     public static void main(String[] args) {
-        //进行测试
         //先创建节点
-        HeroNode hero1 = new HeroNode(1, "AA", "a");
-        HeroNode hero2 = new HeroNode(2, "B", "b");
-        HeroNode hero3 = new HeroNode(3, "C", "c");
-        HeroNode hero4 = new HeroNode(4, "D", "d");
-        //创建链表
-        SinglyLinkedList singleLinkedList = new SinglyLinkedList();
-        //添加英雄
-        singleLinkedList.addNode(hero1);
-        singleLinkedList.addNode(hero2);
-        singleLinkedList.addNode(hero3);
-        singleLinkedList.addNode(hero4);
-        //显示英雄
+        HeroNode hero1 = new HeroNode(1, "A", "AA");
+        HeroNode hero2 = new HeroNode(2, "B", "BB");
+        HeroNode hero3 = new HeroNode(3, "C", "CC");
+        HeroNode hero4 = new HeroNode(4, "D", "DD");
 
-        singleLinkedList.ShowLinkedList();
+        //创建要给链表
+        SingleLinkedList singleLinkedList = new SingleLinkedList();
+
+        //加入
+        singleLinkedList.add(hero1);
+        singleLinkedList.add(hero4);
+        singleLinkedList.add(hero2);
+        singleLinkedList.add(hero3);
+        //显示一把
+        singleLinkedList.list();
+
     }
 }
 
-class SinglyLinkedList {
-    //initialize a headNode, the head node can't move otherwise it can't locaate the other nodes
-    private HeroNode heroNode = new HeroNode(0, "0", "A");
+//定义SingleLinkedList 管理我们的英雄
+class SingleLinkedList {
+    //先初始化一个头节点, 头节点不要动, 不存放具体的数据
+    private HeroNode head = new HeroNode(0, "", "");
 
 
-    // Add nodes to the linkedList
-    //思路：当不考虑不考虑编号的顺序时：
-    //1.找到当前链表的最后节点，
-    //2.将最后这个节点的next 指向新的节点
-    //2.通过循环找到循环的末尾
-    public void addNode(HeroNode heroNode) {
-        //创建一个辅助变量来管理头节点，因为head节点不能动，因此需要一个辅助变量tmp
-        HeroNode tmp = heroNode;
-        //只要找到的那个tmp不为空，就说明还没有找到最后一个，此时就继续while循环
-        while (true) {
-            if (tmp.next == null) {
-                break;
-            }
-            //tmp继续后移到下一个继续找
-            tmp = tmp.next;
-        }
-        //当退出while循环时，tmp就指向链表的最后
-        tmp.next = heroNode;
+    //返回头节点
+    public HeroNode getHead() {
+        return head;
     }
 
-    // show the whole linkedList
-    public void ShowLinkedList() {
+    //添加节点到单向链表
+    //思路，当不考虑编号顺序时
+    //1. 找到当前链表的最后节点
+    //2. 将最后这个节点的next 指向 新的节点
+    public void add(HeroNode heroNode) {
+
+        //因为head节点不能动，因此我们需要一个辅助遍历 temp
+        HeroNode temp = head;
+        //遍历链表，找到最后
+        while (true) {
+            //找到链表的最后
+            if (temp.next == null) {//
+                break;
+            }
+            //如果没有找到最后, 将将temp后移
+            temp = temp.next;
+        }
+        //当退出while循环时，temp就指向了链表的最后
+        //将最后这个节点的next 指向 新的节点
+        temp.next = heroNode;
+    }
+
+    //显示链表[遍历]
+    public void list() {
         //判断链表是否为空
-        if (heroNode.next == null) {
-            System.out.println("LinkedList is empty");
+        if (head.next == null) {
+            System.out.println("链表为空");
             return;
         }
-        //因为头节点不能动所以只能用一个辅助变量来遍历
-        HeroNode tmp = heroNode.next;
-
-        //第一种写法：
+        //因为头节点，不能动，因此我们需要一个辅助变量来遍历
+        HeroNode temp = head.next;
         while (true) {
-            //判断是否到了链表最后
-            if (tmp.next == null) {
+            //判断是否到链表最后
+            if (temp == null) {
                 break;
             }
-            System.out.println(tmp);
-            //一定要记得将节点下移不然就会死循环
-            tmp = tmp.next;
+            //输出节点的信息
+            System.out.println(temp);
+            //将temp后移， 一定小心
+            temp = temp.next;
         }
     }
 }
-        //第二种写法：
-//        while (tmp.next != null) {
-//            //一定要记得将节点下移不然就会死循环
-//            tmp = tmp.next;
-//            System.out.println(tmp.toString());
-//        }
 
-
+//定义HeroNode ， 每个HeroNode 对象就是一个节点
 class HeroNode {
     public int no;
     public String name;
-    public String nickName;
-    public HeroNode next;
+    public String nickname;
+    public HeroNode next; //指向下一个节点
 
-    public HeroNode(int no, String name, String nickName) {
+    //构造器
+    public HeroNode(int no, String name, String nickname) {
         this.no = no;
         this.name = name;
-        this.nickName = nickName;
+        this.nickname = nickname;
     }
 
+    //为了显示方法，我们重新toString
     @Override
     public String toString() {
-        return "HeroNode{" +
-                "no=" + no +
-                ", name='" + name + '\'' +
-                ", nickName='" + nickName + '\'' +
-                '}';
+        return "HeroNode [no=" + no + ", name=" + name + ", nickname=" + nickname + "]";
     }
+
 }
