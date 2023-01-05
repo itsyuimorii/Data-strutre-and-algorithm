@@ -11,20 +11,27 @@ public class SinglyLinkedListDemo {
     //进行测试
     public static void main(String[] args) {
         //先创建节点
-        HeroNode hero1 = new HeroNode(1, "A", "AA");
-        HeroNode hero2 = new HeroNode(2, "B", "BB");
-        HeroNode hero3 = new HeroNode(3, "C", "CC");
-        HeroNode hero4 = new HeroNode(4, "D", "DD");
+        HeroNode hero1 = new HeroNode(1, "Hero-A", "AA");
+        HeroNode hero2 = new HeroNode(2, "Hero-B", "BB");
+        HeroNode hero3 = new HeroNode(3, "Hero-C", "CC");
+        HeroNode hero4 = new HeroNode(4, "Hero-D", "DD");
 
         //创建要给链表
         SingleLinkedList singleLinkedList = new SingleLinkedList();
+//
+//        //第一种添加方式addHero
+//        singleLinkedList.addHero(hero1);
+//        singleLinkedList.addHero(hero4);
+//        singleLinkedList.addHero(hero2);
+//        singleLinkedList.addHero(hero3);
 
-        //加入
-        singleLinkedList.add(hero1);
-        singleLinkedList.add(hero4);
-        singleLinkedList.add(hero2);
-        singleLinkedList.add(hero3);
-        //显示一把
+        //第二种添加方式addByOrder
+        singleLinkedList.addByOrder(hero1);
+        singleLinkedList.addByOrder(hero4);
+        singleLinkedList.addByOrder(hero3);
+        singleLinkedList.addByOrder(hero2);
+
+        //测试
         singleLinkedList.list();
 
     }
@@ -45,7 +52,7 @@ class SingleLinkedList {
     //思路，当不考虑编号顺序时
     //1. 找到当前链表的最后节点
     //2. 将最后这个节点的next 指向 新的节点
-    public void add(HeroNode heroNode) {
+    public void addHero(HeroNode heroNode) {
 
         //因为head节点不能动，因此我们需要一个辅助遍历 temp
         HeroNode temp = head;
@@ -62,6 +69,38 @@ class SingleLinkedList {
         //将最后这个节点的next 指向 新的节点
         temp.next = heroNode;
     }
+
+    //第二种方式添加数据时， 根据排名将英雄插入到指定位置
+    //如果有这个排名，则添加失败，并给出提示
+    public void addByOrder(HeroNode heroNode) {
+        //因为头节点不能动， 因此我们需要通过一个辅助指针（变量）来帮助我们找到添加的位置
+        //这是单链表， 因为我们找的temp时位于添加位置的前一个节点， 否则插入不了？
+        HeroNode temp = head;
+        boolean found = false; //标识添加的编号是否存在， 默认为false
+        while (true) {
+            //思路就是先从头开始遍历节点，获得每个节点的no值，如果next为null则说明已经遍历到最后一个节点，直接插入到最后就行。如果在遍历过程中找到符合插入节点no值在两个相邻节点no值之间，则在此插入
+            if (temp.next == null) {//说明temp 已经在链表的最后，不能再添加数据
+                break;
+            }
+            //这里不是让temp跟 加入的数据做比较，而是让temp的下一个节点和加入的数据做比较
+            if (temp.next.no > heroNode.no) {
+                break;
+            } else if (temp.next.no == heroNode.no) {//说明希望添加的heroNode的编号已然存在
+                found = true; //说明编号存在
+                break;
+            }
+            temp = temp.next; //后移，遍历当前链表
+        }
+        //判断flag 的值if found == true
+        if (found) { //不能添加，说明编号存在
+            System.out.printf("准备插入的英雄的编号 %d 已经存在了, 不能加入\n", heroNode.no);
+        } else {
+            //插入到链表中, temp的后面
+            heroNode.next = temp.next;
+            temp.next = heroNode;
+        }
+    }
+
 
     //显示链表[遍历]
     public void list() {
