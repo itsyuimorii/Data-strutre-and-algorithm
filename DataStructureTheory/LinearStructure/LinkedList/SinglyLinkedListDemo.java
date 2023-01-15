@@ -31,17 +31,24 @@ public class SinglyLinkedListDemo {
         singleLinkedList.addByOrder(hero3);
         singleLinkedList.addByOrder(hero2);
 
-        //测试
+        //test
+        singleLinkedList.list();
+
+        //Update test
+        HeroNode newHeroNode = new HeroNode(2, "Update", "hero5");
+        singleLinkedList.update(newHeroNode);
+
+        System.out.println("After Update Data~~");
         singleLinkedList.list();
 
     }
+
 }
 
 //定义SingleLinkedList 管理我们的英雄
 class SingleLinkedList {
     //先初始化一个头节点, 头节点不要动, 不存放具体的数据
     private HeroNode head = new HeroNode(0, "", "");
-
 
     //返回头节点
     public HeroNode getHead() {
@@ -98,6 +105,68 @@ class SingleLinkedList {
             //插入到链表中, temp的后面
             heroNode.next = temp.next;
             temp.next = heroNode;
+        }
+    }
+
+    //修改节点的信息, 根据no编号来修改，即no编号不能改.
+    //说明
+    //1. 根据 newHeroNode 的 no 来修改即可
+    public void update(HeroNode newHeroNode) {
+
+        if (head.next == null) {
+            System.out.println("链表为空~");
+            return;
+        }
+        //找到需要修改的节点, 根据no编号
+        //定义一个辅助变量
+        HeroNode temp = head.next;
+        boolean flag = false; //表示是否找到该节点
+        while (true) {
+            if (temp == null) {
+                break; //已经遍历完链表
+            }
+            //no相等，说明找到了， flag=true后，break退出循环
+            if (temp.no == newHeroNode.no) {
+                flag = true;
+                break;
+            }
+            //如果上一个if没有执行，那么就说明no没找到对应的， 就继续将temp下移一个
+            temp = temp.next;
+        }
+        //根据flag 判断是否找到要修改的节点
+        //退出后有两种情况
+        if (flag) {
+            temp.name = newHeroNode.name;
+            temp.nickname = newHeroNode.nickname;
+        } else { //没有找到
+            System.out.printf("没有找到 编号 %d 的节点，不能修改\\n", newHeroNode.no);
+        }
+    }
+
+    //删除节点
+    //思路
+    //1. head 不能动，因此我们需要一个temp辅助节点找到待删除节点的前一个节点
+    //2. 说明我们在比较时，是temp.next.no 和  需要删除的节点的no比较
+    public void del(int no) {
+        HeroNode temp = head;
+        boolean flag = false; // 标志是否找到待删除节点的
+        while (true) {
+            if (temp.next == null) { //已经到链表的最后
+                break;
+            }
+            if (temp.next.no == no) {
+                //找到的待删除节点的前一个节点temp
+                flag = true;
+                break;
+            }
+            temp = temp.next; //temp后移，遍历
+        }
+        //判断flag
+        if (flag) { //找到
+            //可以删除
+            temp.next = temp.next.next;
+        } else {
+            System.out.printf("要删除的 %d 节点不存在\\n", no);
         }
     }
 

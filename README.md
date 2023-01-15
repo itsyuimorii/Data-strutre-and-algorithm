@@ -6,8 +6,6 @@ Like arrays, a Linked List is a linear data structure. Unlike arrays, linked lis
 
 [What is Linked List - GeeksforGeeks](https://www.geeksforgeeks.org/what-is-linked-list/)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1c4bd1b7-9db0-49ab-9111-e37cf1089c3c/Untitled.png)
-
 ## Advantages of Linked Lists over arrays:
 
 - Dynamic Array.
@@ -23,27 +21,27 @@ Like arrays, a Linked List is a linear data structure. Unlike arrays, linked lis
 
 # **Singly Linked List**
 
-1. 链表是**有序的**
-2. 链表是以节点的方式来存储，是链式存储
-3. 每一个节点包含data域，next域：指向下一个节点
-4. 如图：发现链表的**各个节点不一定是连续存储**
-5. 链表分**带头节点的链表**和**没有头节点的链表**，根据实际的需求来确定
+1. A linked table is **ordered**
+2. the linked table is stored as nodes, it is chain storage
+3. each node contains data domain, next domain: point to the next node
+4. as shown in the figure: found that the ** individual nodes of the chain table are not necessarily stored consecutively**
+5. the chain table is divided into **chain table with head node** and **chain table without head node**, according to the actual needs to determine
 
 ## What is the singly linked list?
 
-单链表（带头结点）逻辑结构示意图如下（**他只是逻辑上有序的，但是物理上他不是有序的)**
+The logical structure of a single linked table (with a head node) is shown below (** he is only logically ordered, but physically he is not ordered)**
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/bc4313cc-1235-4c1a-bc36-f32db4d17fd9/Untitled.png)
+![Untitled]([UntitledSll.png](https://github.com/itsyuimorii/Data-strutre-and-algorithm/blob/main/img/UntitledSll.png))
 
 > head节点: 不存放具体的数据, 作用是表示单链表的头
 
 ## The idea of creating a single linked table
 
-1. 添加（创建）
-   1. 创建一个head头节点，作用就是表示单链表的头
-   2. then, 每添加一个节点，就直接加入到链表的后面
-2. 遍历
-   1. 通过一个辅助变量遍历，帮助遍历整个链表
+1. Adding (creating)
+   1. create a head node, the role is to represent the head of the single-linked table
+   2. then, each added node is added directly to the back of the chain
+2. traversal
+   1. iterate through the entire chain table with the help of an auxiliary variable
 
 ### Full Code
 
@@ -407,6 +405,12 @@ class HeroNode {
 ### 2. addByOrder - add data into list by order 
 
 > Insert the content into the specified position according to the ranking
+>
+编号问题代码实现
+>
+> 1. 首先找到要添加节点的位置，我们需要一个辅助变量（指针来作为插入数据的前一个数据），通过遍历来实现
+> 2. 当找到位置后就通过  新的节点.next = temp.next来指向4的位置
+> 3. temp.next = 新的节点；
 
 ```java
 //第二种方式添加数据时， 根据排名将英雄插入到指定位置
@@ -440,3 +444,102 @@ class HeroNode {
         }
     }
 ```
+
+### 3. Update data
+
+> 这里有几个小细节，首先这个变量指向的是头节点的下一个节点，而不是头节点，这样比较快一点
+>
+> 如果这里还用tmp.next的话最后一个的next就是null就直接break了，有一个节点就不会被操作，所以这里只能是tmp ==null就代表遍历完了。
+
+```java
+//修改节点的信息, 根据no编号来修改，即no编号不能改.
+	//说明
+	//1. 根据 newHeroNode 的 no 来修改即可
+	public void update(HeroNode newHeroNode) {
+		//判断是否空
+		if(head.next == null) {
+			System.out.println("链表为空~");
+			return;
+		}
+		//找到需要修改的节点, 根据no编号
+		//定义一个辅助变量
+		HeroNode temp = head.next;
+		boolean flag = false; //表示是否找到该节点
+		while(true) {
+			if (temp == null) {
+				break; //已经遍历完链表
+			}
+			if(temp.no == newHeroNode.no) {
+        //找到需要修改的节点
+				flag = true;
+				break;
+			}
+			temp = temp.next;
+		}
+		//根据flag 判断是否找到要修改的节点
+		if(flag) {
+			temp.name = newHeroNode.name;
+			temp.nickname = newHeroNode.nickname;
+		} else { //没有找到
+			System.out.printf("没有找到 编号 %d 的节点，不能修改\\n", newHeroNode.no);
+		}
+	}
+	
+```
+
+### 4. Delete data
+
+1. 我们先找到 需要删除的这个节点的前一个节点 temp
+
+2. temp.next = temp.next.next
+
+3. 被删除的节点，将不会有其它引用指向，**会被垃圾回收机制回收**
+
+> 注意的细节
+>
+> 首先tmp指向的必须是头节点如果指向的是Head.next那么第一个节点就会被跳过，就会删除不到
+>
+> 必须是tmp.next == null 如果不是那么在else if (tmp.next.no == no)中就会有空指针异常，应为在最后指针才会后移，所以当到林冲的时候指针没有移动如果是tmp == null 那么这里就不会break
+
+```java
+//删除节点
+//思路
+//1. head 不能动，因此我们需要一个temp辅助节点找到待删除节点的前一个节点
+//2. 说明我们在比较时，是temp.next.no 和  需要删除的节点的no比较
+public void del(int no) {
+	HeroNode temp = head;
+	boolean flag = false; // 标志是否找到待删除节点的
+	while(true) {
+		if(temp.next == null) { //已经到链表的最后
+			break;
+		}
+		if(temp.next.no == no) {
+			//找到的待删除节点的前一个节点temp
+			flag = true;
+			break;
+		}
+		temp = temp.next; //temp后移，遍历
+	}Reply help 
+	//判断flag
+	if(flag) {  
+		//可以删除
+		temp.next = temp.next.next;
+	}else {
+		System.out.printf("要删除的 %d 节点不存在\\n", no);
+	}
+}
+```
+
+# 单链表算法问题
+
+## 1. 查找单链表的倒数第k个【面试题】
+
+思路：
+
+1. 接收head节点，同时接收一个index
+2. index，表示的是倒数第index个节点
+3. 先把链表重头到尾遍历一次，等到总长度getlength
+4. 得到size后 ，我们从链表的第一个开始遍历（size - index）个，就可以得到
+5. 如果找到了就返回该节点，否则就是null
+
+完整代码
